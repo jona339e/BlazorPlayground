@@ -1,0 +1,67 @@
+﻿<input type="checkbox" @bind="showEmail" /><label> Display Email</label>
+
+@if (DisplayContacts)
+{
+    if (contacts is null)
+    {
+        @NullContacts
+    }
+    else if (contacts.Count == 0)
+    {
+        @EmptyContacts
+
+    }
+    else
+    {
+        @foreach (var contact in contacts)
+        {
+            <ContactComponent CurrentContact="contact"
+                  ShowEmail="showEmail"
+                  DeleteCurrentContact="() => RequestDeleteModal(contact)">
+            </ContactComponent>
+        }
+    }
+}
+
+<DeleteConfirmationComponent @ref="deleteConfirmation"
+                             OnConfirm="OnDeleteConfirmed">
+</DeleteConfirmationComponent>
+
+@code {
+    private bool showDeleteModal = false;
+
+    private DeleteConfirmationComponent deleteConfirmation;
+
+
+    [Parameter]
+    public List<ContactModel> contacts { get; set; }
+
+    [Parameter]
+    public RenderFragment NullContacts { get; set; }
+    [Parameter]
+    public RenderFragment EmptyContacts { get; set; }
+
+    private bool DisplayContacts = true;
+    private bool showEmail = true;
+
+    // remove contact from list
+    private void RequestDeleteModal(ContactModel contact)
+    {
+        deleteConfirmation.Title = "Delete Contact";
+        deleteConfirmation.Text = $"Are you sure you want to delete {contact.FirstName} {contact.LastName}?";
+        deleteConfirmation.ContactToDelete = contact;
+        deleteConfirmation.ShowModal();
+        
+    }
+
+    private async Task OnDeleteConfirmed(ContactModel contact)
+    {
+        showDeleteModal = true;
+        contacts.Remove(contact);
+        deleteConfirmation.HideModal();
+
+    }
+
+    public void ShowContact() => DisplayContacts = true;
+    public void HideContacts() => DisplayContacts = false;
+}

@@ -1,0 +1,47 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+<h1>Index</h1>
+
+
+<ContactListComponent @ref="contactList" contacts="contacts" RequestDeleteModal="RequestDeleteModal">
+    <NullContacts>
+        <br />
+        <span>Loading...</span>
+        <br />
+    </NullContacts>
+    <EmptyContacts>
+        <br />
+        <span>No Contacts Available</span>
+        <br />
+    </EmptyContacts>
+</ContactListComponent>
+
+
+<br />
+
+<button @onclick="ToggleContacts">Show/Hide Contacts</button>
+
+<br />
+<br />
+
+
+@*1st textbox*@
+<MyTextboxComponent placeholder="placeholder 01" type="text" disabled /><br />
+
+
+@*2nd textbox*@
+<MyTextboxComponent @attributes="@(new Dictionary<string, object> 
+                                    {
+                                        { "disabled", "disabled"},
+                                        { "placeholder", "placeholder 02"},
+                                        { "type", "text"}
+                                    })" />
+<br />
+
+@*3rd textbox*@
+<MyTextboxComponent @attributes="@CustomAttributes"/> <br />
+
+
+
+

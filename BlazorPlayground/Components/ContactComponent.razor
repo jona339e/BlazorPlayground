@@ -1,0 +1,38 @@
+﻿<p>
+    <b>Name: </b><span>@CurrentContact.FirstName @CurrentContact.LastName</span><br />
+
+    @if (ShowEmail)
+    {
+        <b>Email: </b>
+
+        <i>@CurrentContact.Email</i>
+
+        <br />
+    }
+    
+    
+    @if (displayInfo)
+    {
+        <span>The Email Address of @CurrentContact.FirstName @CurrentContact.LastName is: @CurrentContact.Email</span>
+    }
+    <br />
+
+    <button @onclick="@(() => {displayInfo = !displayInfo;})">Show Info</button>
+    <button @onclick="DeleteCurrentContact">Delete</button>
+    
+</p>
+
+@code {
+
+    [Parameter]
+    public Action DeleteCurrentContact { get; set; }
+
+    [Parameter]
+    public ContactModel CurrentContact { get; set; }
+
+    [Parameter]
+    public bool ShowEmail { get; set; }
+
+
+    private bool displayInfo = false;
+}
